@@ -1,0 +1,14 @@
+
+[Unit]
+Description=Start ngrok tunnel and register Strava webhook
+After=network.target strava-app.service
+
+[Service]
+User=berland
+WorkingDirectory=/home/berland/pyrotun
+ExecStart=/home/berland/pyrotun/venv310/bin/python -u strava/proxyserver.py 
+Restart=on-failure
+RestartSec=15s
+
+[Install]
+WantedBy=multi-user.target

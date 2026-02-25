@@ -1,0 +1,123 @@
+---
+title: "Automating my Strava"
+author: "Håvard Berland"
+subtitle: Equinor Developer Conference 2026
+format: 
+  revealjs:
+    theme: [default, custom.sccs]
+    embed-resources: true
+
+<! -- good themes: moon, sky -->
+---
+
+## Me
+
+::: columns
+
+::: {.column width=50%}
+
+- Marathon runner (42 km - 2:34:30)
+- 2-3 running workouts a day, 141 km/week in 2025
+- Developer, both at work and at home
+
+:::
+::: {.column width=50%}
+
+![](gfx/oslomaraton-crop.jpg)
+
+:::
+:::
+
+## My "Strava problem"
+
+:::{.incremental}
+- 2-3 workouts a day. Stick to "Morning Run", "Afternoon Run", etc?
+- Automate fiddling in the Strava app for every workout
+- Analyze runs and make the interesting statistics that Strava does not provide
+:::
+
+## Data flow
+
+![](gfx/strava-dataflow.drawio.svg)
+
+## Example
+
+- Strava calls a webhook in my Python FastAPI application, activity data
+  supplied as a `dict`:
+  ```python
+      if activity["device_name"] == "Zwift Run":
+          start_time = datetime.fromisoformat(activity["start_date_local"])
+          if start_time.weekday() == MONDAY and 8 < start_time.hour < 11: 
+              update_activity(activity_id, {
+                      "name": "Gym på jobben",
+                      "description": "Zwift"})
+  ```
+![](gfx/gym.png){.fragment fragment-index=1 width=500 fig-align=center}
+
+## Commute run features 
+
+:::{layout-ncol="2"}
+
+:::{#first-col}
+
+::: {.fragment fragment-index=1}
+- Detection and muting
+:::
+::: {.fragment fragment-index=2}
+- Phone notification to select shoes, and copies to return commute
+:::
+
+![](gfx/pushover.png){.fragment fragment-index=2 width=400 fig-align=center}
+:::
+
+:::{#second-col}
+
+![](gfx/tiljobb.png){.fragment fragment-index=1}
+
+
+:::
+
+:::
+
+## Analysis of interval sessions
+
+:::{layout-ncol="2"}
+
+:::{#first-col}
+
+- 5 years of rigid running protocol Tuesday, Thursday and Saturday 
+![](gfx/torsdag.png){.fragment fragment-index=4 width=400}
+:::
+
+:::{#second-col}
+
+![](gfx/tirsdag.png){.fragment fragment-index=3}
+
+
+:::
+
+:::
+
+
+## Data analysis
+  
+- Crossplot heart rate vs speed
+[![](gfx/kryssplott.png){width=1100}](https://grafana.raaserv.no/d/8MfvejXNz/intervallanalyse)
+
+## Data analysis
+
+- Interval speed for Tuesday 1000m over time
+[![](gfx/tirsdagsplott.png)](https://grafana.raaserv.no/d/8MfvejXNz/intervallanalyse)
+
+
+## Thanks
+
+- <https://github.com/berland/strava>
+
+  ```bash
+  $ wc -l *.py
+  528 exercise_analyzer.py
+  112 proxyserver.py
+  271 stravaapp.py
+  911 total
+  ``` 
