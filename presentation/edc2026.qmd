@@ -1,0 +1,53 @@
+---
+title: "Quarto Basics"
+format:
+  html:
+    code-fold: true
+jupyter: python3
+---
+
+For a demonstration of a line plot on a polar axis, see @fig-polar.
+
+```{python}
+#| label: fig-polar
+#| fig-cap: "A line plot on a polar axis"
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+r = np.arange(0, 2, 0.01)
+theta = 2 * np.pi * r
+fig, ax = plt.subplots(
+  subplot_kw = {'projection': 'polar'} 
+)
+ax.plot(theta, r)
+ax.set_rticks([0.5, 1, 1.5, 2])
+ax.grid(True)
+plt.show()
+```
+
+Me: 
+Marathon runner (2:33:xx in Barcelona this Sunday)
+Developer, both at work and at home
+2-3 running workouts a day
+
+
+Problem at hand:
+Automate fiddling in the Strava app for every workout
+Analyze runs
+
+Exiting data flow:
+
+Polar watch → Polar app on phone → Polar cloud → {Strava cloud, XML file on home server}
+
+Amended data flow
+Strava cloud + local XML file → home server app → {Strava cloud, local sqlite db file} → Grafana dashboard
+
+(In addition, also points to my LAMP application from 2000 - another story)
+
+What it does?
+"Til jobb" + "mute" button + shoe notification on my phone
+"Fra jobb" + "mute button" and copies shoe setting from "Til jobb"
+
+Standardized interval session → Computes a title and a description, puts quantitative measures into local database
+
