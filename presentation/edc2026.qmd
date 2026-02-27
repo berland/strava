@@ -1,53 +1,44 @@
 ---
-title: "Quarto Basics"
-format:
-  html:
-    code-fold: true
-jupyter: python3
+title: "Automating my Strava"
+author: "Håvard Berland"
+format: revealjs
 ---
 
-For a demonstration of a line plot on a polar axis, see @fig-polar.
+## Me
 
-```{python}
-#| label: fig-polar
-#| fig-cap: "A line plot on a polar axis"
+- Marathon runner (2:33:xx in Barcelona this Sunday)
+- Developer, both at work and at home
+- 2-3 running workouts a day
 
-import numpy as np
-import matplotlib.pyplot as plt
+## Problem at hand
+:::{.incremental}
+- 2-3 workouts a day. Stick to "Morning Run", "Afternoon Run", etc?
+- Automate fiddling in the Strava app for every workout
+- Analyze runs, make statistics
+:::
 
-r = np.arange(0, 2, 0.01)
-theta = 2 * np.pi * r
-fig, ax = plt.subplots(
-  subplot_kw = {'projection': 'polar'} 
-)
-ax.plot(theta, r)
-ax.set_rticks([0.5, 1, 1.5, 2])
-ax.grid(True)
-plt.show()
-```
+## Data flow
 
-Me: 
-Marathon runner (2:33:xx in Barcelona this Sunday)
-Developer, both at work and at home
-2-3 running workouts a day
+![](gfx/strava-dataflow.drawio.svg)
 
+## Features
+:::{.incremental}
+- Detects my commutes, mutes them and sends me a notification to select shoe pair.
+- Auto-sets shoe-pair for my return commute.
+- Analyzes interval sessions. Rigid running protocol for every Tuesday, Thursday and Saturday.
+:::
 
-Problem at hand:
-Automate fiddling in the Strava app for every workout
-Analyze runs
+## Technical
+:::{.incremental}
+- Strava calls my home server through ngrok reverse proxy, activity supplied as
+  a `dict` to a Python function in my FastAPI application
+- Looks up XML file from Polar on local disk, and performs analysis of the workout
+- Updates tokens regularly, and performs initial token handshake
+- github.com/berland/strava
 
-Exiting data flow:
+## Data analysis
 
-Polar watch → Polar app on phone → Polar cloud → {Strava cloud, XML file on home server}
+- Interval speed for Tuesday 1000m over time
+- Crossplot heart rate vs speed
 
-Amended data flow
-Strava cloud + local XML file → home server app → {Strava cloud, local sqlite db file} → Grafana dashboard
-
-(In addition, also points to my LAMP application from 2000 - another story)
-
-What it does?
-"Til jobb" + "mute" button + shoe notification on my phone
-"Fra jobb" + "mute button" and copies shoe setting from "Til jobb"
-
-Standardized interval session → Computes a title and a description, puts quantitative measures into local database
 
