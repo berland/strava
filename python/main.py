@@ -17,7 +17,7 @@ from pyrotun import exercise_analyzer
 
 app = FastAPI()
 
-VERIFY_TOKEN = "vapourfly"
+VERIFY_TOKEN = "some_self-chosen_string"
 logger = logging.getLogger(__name__)
 load_dotenv()
 app = FastAPI()
@@ -76,7 +76,6 @@ def refresh_token_if_needed(force=False):
         )
         if response.status_code == 200:
             new_tokens = response.json()
-            # Update tokens dict with new values
             tokens["access_token"] = new_tokens["access_token"]
             tokens["refresh_token"] = new_tokens["refresh_token"]
             tokens["expires_at"] = new_tokens["expires_at"]
@@ -110,6 +109,7 @@ async def receive_event(payload: dict):
     if payload.get("aspect_type") == "delete":
         return "", 200
 
+    assert activity_id
     await process_activity_update(activity_id, payload.get("aspect_type", ""))
 
     return "", 200
@@ -162,39 +162,18 @@ async def exchange_token(request: Request):
     return RedirectResponse(url="/dashboard")
 
 
-def print_athlete_info():
-    access_token = refresh_token_if_needed()
-    url = "https://www.strava.com/api/v3/athlete"
-    headers = {"Authorization": f"Bearer {access_token}"}
-    response = requests.get(url, headers=headers)
-
-    print(response)
-    print(response.json())
-
-
 async def process_activity_update(activity_id: str, aspect_type: str):
     access_token = refresh_token_if_needed()
     url = f"https://www.strava.com/api/v3/activities/{activity_id}"
     headers = {"Authorization": f"Bearer {access_token}"}
-    print(url)
-    print(headers)
     response = requests.get(url, headers=headers)
-
-    print(response)
     activity: dict = response.json()
-    print("*** ACTIVITY INFO ***")
     pprint.pprint(upper_dict_layer(activity))
-    # pprint.pprint(activity)
-    print("*** ACTIVITY END ***")
 
     updates = {}
     if activity.get("device_name", "") == "Zwift Run":
         start_time = datetime.datetime.fromisoformat(str(activity["start_date_local"]))
-        if float(activity.get("average_speed", "5")) < 2.54:  # 6:30 min/km
-            print("Neppe jeg som har løpt på Zwift, setter til privat")
-            updates["private"] = True
-            updates["visibility"] = "only_me"
-        elif start_time.weekday() == 0 and 8 < start_time.hour < 11:  # Mandag
+        if start_time.weekday() == 0 and 8 < start_time.hour < 11:  # Mandag
             updates["name"] = "Gym på jobben"
             updates["description"] = "Zwift"
         print(f"Submitting activity updates: {updates}")
@@ -253,7 +232,6 @@ async def check_and_notify_about_undefined_shoe(activity: dict):
         pushover_resp = requests.post(
             "https://api.pushover.net/1/messages.json", data=data
         )
-        print("Pushover sent:", pushover_resp.status_code)
         SHOE_NOTIFICATIONS_SENT.add(activity["id"])
 
 
@@ -264,10 +242,10 @@ def update_activity(activity_id: str, data):
     response = requests.put(url, headers=headers, data=data)
 
     if response.status_code == 200:
-        print("✅ Activity updated.")
+        print("Activity updated.")
         return response.json()
     else:
-        print(f"❌ Failed to update activity: {response.status_code}")
+        print(f"Failed to update activity: {response.status_code}")
         print(response.text)
         return None
 
@@ -283,30 +261,6 @@ def find_nearby_file(iso_timestamp_from_strava, seconds_range=3) -> Path | None:
         if candidate_path.exists():
             return candidate_path.parent  # Return the first match
     return None
-
-
-async def download_tcx(activity_id: str, save_path: str) -> None:
-    access_token = refresh_token_if_needed()
-    url = f"https://www.strava.com/api/v3/activities/{activity_id}"
-    tcx_url = f"https://www.strava.com/activities/{activity_id}/export_tcx"
-    headers = {"Authorization": f"Bearer {access_token}"}
-    print(f"Headers when downloacing tcx: {headers}")
-
-    async with httpx.AsyncClient() as client:
-        response = await client.get(url, headers=headers)
-
-    # print("*** ACT info again")
-    # pprint.pprint(response.text)
-
-    async with httpx.AsyncClient() as client:
-        response = await client.get(tcx_url, headers=headers)
-
-    if response.status_code != 200:
-        raise HTTPException(
-            status_code=response.status_code, detail="Failed to download TCX"
-        )
-
-    print(response.text)
 
 
 def upper_dict_layer(d: dict) -> dict:
