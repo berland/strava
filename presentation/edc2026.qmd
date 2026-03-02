@@ -6,9 +6,21 @@ format: revealjs
 
 ## Me
 
+::: columns
+
+::: {.column width=50%}
+
 - Marathon runner (2:33:xx in Barcelona this Sunday)
 - Developer, both at work and at home
 - 2-3 running workouts a day
+
+:::
+::: {.column width=50%}
+
+![](gfx/oslomaraton-crop.jpg)
+
+:::
+:::
 
 ## Problem at hand
 :::{.incremental}
@@ -19,22 +31,47 @@ format: revealjs
 
 ## Data flow
 
-![](gfx/strava-dataflow.drawio.svg)
+![](gfx/strava-dataflow.png)
 
 ## Features
-:::{.incremental}
-- Detects my commutes, mutes them and sends me a notification to select shoe pair.
-- Auto-sets shoe-pair for my return commute.
-- Analyzes interval sessions. Rigid running protocol for every Tuesday, Thursday and Saturday.
+
+:::{layout-ncol="2"}
+
+:::{#first-col}
+
+::: {.fragment fragment-index=1}
+- Detects my commutes, mutes them and sends me a notification to select shoe pair
+:::
+::: {.fragment fragment-index=2}
+- Auto-sets shoe-pair for my return commute
+:::
+::: {.fragment fragment-index=3}
+- Analyzes interval sessions. Rigid running protocol for every Tuesday, Thursday and Saturday 
+:::
+:::
+
+:::{#second-col}
+:::{.r-stack}
+![](gfx/tiljobb.png){.fragment .fade-in-then-out fragment-index=1 width=200}
+![](gfx/pushover.png){.fragment .fade-in-then-out fragment-index=2 width=200}
+![](gfx/tirsdag.png){.fragment .fade-in-then-out fragment-index=3 width=200}
+
+:::
+:::
+
 :::
 
 ## Technical
+
 :::{.incremental}
+
 - Strava calls my home server through ngrok reverse proxy, activity supplied as
   a `dict` to a Python function in my FastAPI application
 - Looks up XML file from Polar on local disk, and performs analysis of the workout
-- Updates tokens regularly, and performs initial token handshake
-- github.com/berland/strava
+- Updates tokens regularly, and performs initial token handshake (OAuth2)
+- https://github.com/berland/strava
+
+:::
 
 ## Data analysis
 
