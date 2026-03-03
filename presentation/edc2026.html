@@ -29,7 +29,7 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="edc2026_files/libs/revealjs/dist/theme/quarto-534cd8e3a96973385dffff3f4709048d.css">
+  <link rel="stylesheet" href="edc2026_files/libs/revealjs/dist/theme/quarto-f34854398280fadcfce6284e25ec6793.css">
   <link href="edc2026_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="edc2026_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="edc2026_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -128,6 +128,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">Automating my Strava</h1>
+  <p class="subtitle">Equinor Developer Conference 2026</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -140,11 +141,16 @@ Håvard Berland
 </section>
 <section id="me" class="slide level2">
 <h2>Me</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
 <ul>
 <li>Marathon runner (2:33:xx in Barcelona this Sunday)</li>
 <li>Developer, both at work and at home</li>
 <li>2-3 running workouts a day</li>
 </ul>
+</div><div class="column" style="width:50%;">
+<p><img data-src="gfx/oslomaraton-crop.jpg"></p>
+</div></div>
 </section>
 <section id="problem-at-hand" class="slide level2">
 <h2>Problem at hand</h2>
@@ -157,13 +163,50 @@ Håvard Berland
 <section id="data-flow" class="slide level2">
 <h2>Data flow</h2>
 
-<img data-src="gfx/strava-dataflow.drawio.svg" class="r-stretch"></section>
+<img data-src="gfx/strava-dataflow.png" class="r-stretch"></section>
 <section id="features" class="slide level2">
 <h2>Features</h2>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div id="first-col" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="fragment" data-fragment-index="1">
 <ul>
-<li class="fragment">Detects my commutes, mutes them and sends me a notification to select shoe pair.</li>
-<li class="fragment">Auto-sets shoe-pair for my return commute.</li>
-<li class="fragment">Analyzes interval sessions. Rigid running protocol for every Tuesday, Thursday and Saturday.</li>
+<li>Detects my commutes, mutes them and sends me a notification to select shoe pair</li>
+</ul>
+</div>
+<div class="fragment" data-fragment-index="2">
+<ul>
+<li>Auto-sets shoe-pair for my return commute</li>
+</ul>
+</div>
+<div class="fragment" data-fragment-index="3">
+<ul>
+<li>Analyzes interval sessions. Rigid running protocol for every Tuesday, Thursday and Saturday</li>
+</ul>
+</div>
+</div>
+<div id="second-col" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="r-stack">
+<p><img data-src="gfx/tiljobb.png" class="fragment fade-in-then-out" data-fragment-index="1" width="400"> <img data-src="gfx/pushover.png" class="fragment fade-in-then-out" data-fragment-index="1" width="400"> <img data-src="gfx/tirsdag.png" class="fragment fade-in-then-out" data-fragment-index="3" width="400"></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="technical" class="slide level2">
+<h2>Technical</h2>
+<ul>
+<li class="fragment">Strava calls my home server through ngrok reverse proxy, activity supplied as a <code>dict</code> to a Python function in my FastAPI application</li>
+<li class="fragment">Looks up XML file from Polar on local disk, and performs analysis of the workout</li>
+<li class="fragment">Updates tokens regularly, and performs initial token handshake (OAuth2)</li>
+<li class="fragment">https://github.com/berland/strava</li>
+</ul>
+</section>
+<section id="data-analysis" class="slide level2">
+<h2>Data analysis</h2>
+<ul>
+<li>Interval speed for Tuesday 1000m over time</li>
+<li>Crossplot heart rate vs speed</li>
 </ul>
 
 </section>

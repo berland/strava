@@ -1,0 +1,5 @@
+/*-- scss:mixins --*/
+
+@mixin bodyBackground() {
+  @include radial-gradient(rgba(252, 82, 0, 0.4), rgba(255, 255, 255, 1));
+}
