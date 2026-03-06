@@ -15,9 +15,9 @@ format:
 
 ::: {.column width=50%}
 
-- Marathon runner (2:33:xx in Barcelona this Sunday)
+- Marathon runner (42 km / 2:33:xx in Barcelona this Sunday)
 - Developer, both at work and at home
-- 2-3 running workouts a day
+- 2-3 running workouts a day, 141 km/week in 2025
 
 :::
 ::: {.column width=50%}
@@ -31,7 +31,7 @@ format:
 :::{.incremental}
 - 2-3 workouts a day. Stick to "Morning Run", "Afternoon Run", etc?
 - Automate fiddling in the Strava app for every workout
-- Analyze runs, make statistics
+- Analyze runs and make the interesting statistics that Strava does not provide
 :::
 
 ## Data flow
@@ -48,7 +48,7 @@ format:
 - Detects my commutes
 :::
 ::: {.fragment fragment-index=2}
-- Phone notification to select shoe-pair, and applies shoe to my return commute
+- Phone notification to select shoe-pair, and applies the same shoe-pair to my return commute
 :::
 
 ![](gfx/pushover.png){.fragment fragment-index=2}
@@ -83,13 +83,13 @@ format:
 :::
 
 
-## Technical
+## Example code
 
 ::: {.fragment fragment-index=1}
 - Strava calls my home server through ngrok reverse proxy, activity supplied as
   a `dict` to a Python function in my FastAPI application
 :::
-:::{.fragment .fade-out fragment-index=2}
+:::{.fragment fragment-index=2}
   ```python
       if activity.get("device_name", "") == "Zwift Run":
           start_time = datetime.fromisoformat(activity["start_date_local"])
@@ -100,19 +100,19 @@ format:
   ```
 :::
 
-::: {.fragment fragment-index=4}
-- Looks up XML file from Polar on local disk, and performs analysis of the workout
-:::
-::: {.fragment fragment-index=5}
-- Updates tokens regularly, and performs initial token handshake (OAuth2)
-:::
-::: {.fragment fragment-index=6}
-- https://github.com/berland/strava
-:::
+
+## Data analysis
+  
+- Crossplot heart rate vs speed
+![](gfx/kryssplott.png)
 
 ## Data analysis
 
 - Interval speed for Tuesday 1000m over time
-- Crossplot heart rate vs speed
+![](gfx/tirsdagsplott.png)
 
+
+## Thanks
+
+- https://github.com/berland/strava
 

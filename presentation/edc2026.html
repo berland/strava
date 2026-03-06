@@ -210,9 +210,9 @@ Håvard Berland
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>Marathon runner (2:33:xx in Barcelona this Sunday)</li>
+<li>Marathon runner (42 km / 2:33:xx in Barcelona this Sunday)</li>
 <li>Developer, both at work and at home</li>
-<li>2-3 running workouts a day</li>
+<li>2-3 running workouts a day, 141 km/week in 2025</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <p><img data-src="gfx/oslomaraton-crop.jpg"></p>
@@ -223,7 +223,7 @@ Håvard Berland
 <ul>
 <li class="fragment">2-3 workouts a day. Stick to “Morning Run”, “Afternoon Run”, etc?</li>
 <li class="fragment">Automate fiddling in the Strava app for every workout</li>
-<li class="fragment">Analyze runs, make statistics</li>
+<li class="fragment">Analyze runs and make the interesting statistics that Strava does not provide</li>
 </ul>
 </section>
 <section id="data-flow" class="slide level2">
@@ -242,7 +242,7 @@ Håvard Berland
 </div>
 <div class="fragment" data-fragment-index="2">
 <ul>
-<li>Phone notification to select shoe-pair, and applies shoe to my return commute</li>
+<li>Phone notification to select shoe-pair, and applies the same shoe-pair to my return commute</li>
 </ul>
 </div>
 <p><img data-src="gfx/pushover.png" class="fragment" data-fragment-index="2"></p>
@@ -275,7 +275,7 @@ Håvard Berland
 <li>Strava calls my home server through ngrok reverse proxy, activity supplied as a <code>dict</code> to a Python function in my FastAPI application</li>
 </ul>
 </div>
-<div class="fragment fade-out" data-fragment-index="2">
+<div class="fragment" data-fragment-index="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>    <span class="cf">if</span> activity.get(<span class="st">"device_name"</span>, <span class="st">""</span>) <span class="op">==</span> <span class="st">"Zwift Run"</span>:</span>
 <span id="cb1-2"><a href=""></a>        start_time <span class="op">=</span> datetime.fromisoformat(activity[<span class="st">"start_date_local"</span>])</span>
 <span id="cb1-3"><a href=""></a>        <span class="cf">if</span> start_time.weekday() <span class="op">==</span> <span class="dv">0</span> <span class="kw">and</span> <span class="dv">8</span> <span class="op">&lt;</span> start_time.hour <span class="op">&lt;</span> <span class="dv">11</span>: </span>
@@ -283,27 +283,36 @@ Håvard Berland
 <span id="cb1-5"><a href=""></a>            updates[<span class="st">"description"</span>] <span class="op">=</span> <span class="st">"Zwift"</span></span>
 <span id="cb1-6"><a href=""></a>        update_activity(activity_id, updates)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="fragment" data-fragment-index="4">
+</section>
+<section id="technical-1" class="slide level2">
+<h2>Technical</h2>
+<div class="fragment" data-fragment-index="1">
 <ul>
 <li>Looks up XML file from Polar on local disk, and performs analysis of the workout</li>
 </ul>
 </div>
-<div class="fragment" data-fragment-index="5">
+<div class="fragment" data-fragment-index="2">
 <ul>
 <li>Updates tokens regularly, and performs initial token handshake (OAuth2)</li>
-</ul>
-</div>
-<div class="fragment" data-fragment-index="6">
-<ul>
-<li>https://github.com/berland/strava</li>
 </ul>
 </div>
 </section>
 <section id="data-analysis" class="slide level2">
 <h2>Data analysis</h2>
 <ul>
-<li>Interval speed for Tuesday 1000m over time</li>
-<li>Crossplot heart rate vs speed</li>
+<li>Crossplot heart rate vs speed <img data-src="gfx/kryssplott.png"></li>
+</ul>
+</section>
+<section id="data-analysis-1" class="slide level2">
+<h2>Data analysis</h2>
+<ul>
+<li>Interval speed for Tuesday 1000m over time <img data-src="gfx/tirsdagsplott.png"></li>
+</ul>
+</section>
+<section id="thanks" class="slide level2">
+<h2>Thanks</h2>
+<ul>
+<li>https://github.com/berland/strava</li>
 </ul>
 
 </section>
