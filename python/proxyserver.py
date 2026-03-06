@@ -12,7 +12,7 @@ PORT = 5444
 STRAVA_API = "https://www.strava.com/api/v3/push_subscriptions"
 CLIENT_ID = os.getenv("STRAVA_CLIENT_ID")
 CLIENT_SECRET = os.getenv("STRAVA_CLIENT_SECRET")
-VERIFY_TOKEN = "vapourfly"
+VERIFY_TOKEN = "some_self-chosen_string"
 
 print(CLIENT_ID)
 print(CLIENT_SECRET)

@@ -38,44 +38,76 @@ format:
 
 ![](gfx/strava-dataflow.png)
 
-## Features
+## Features 
 
 :::{layout-ncol="2"}
 
 :::{#first-col}
 
 ::: {.fragment fragment-index=1}
-- Detects my commutes, mutes them and sends me a notification to select shoe pair
+- Detects my commutes
 :::
 ::: {.fragment fragment-index=2}
-- Auto-sets shoe-pair for my return commute
+- Phone notification to select shoe-pair, and applies shoe to my return commute
 :::
-::: {.fragment fragment-index=3}
-- Analyzes interval sessions. Rigid running protocol for every Tuesday, Thursday and Saturday 
-:::
+
+![](gfx/pushover.png){.fragment fragment-index=2}
 :::
 
 :::{#second-col}
-::::{.r-stack}
-![](gfx/tiljobb.png){.fragment .fade-in-then-out fragment-index=1 width=400}
-![](gfx/pushover.png){.fragment .fade-in-then-out fragment-index=1 width=400}
-![](gfx/tirsdag.png){.fragment .fade-in-then-out fragment-index=3 width=400}
 
-::::
+![](gfx/tiljobb.png){.fragment fragment-index=1}
+
+
 :::
 
 :::
+
+## Features
+
+:::{layout-ncol="2"}
+
+:::{#first-col}
+
+- Analyzes interval sessions. Rigid running protocol for every Tuesday, Thursday and Saturday 
+![](gfx/torsdag.png){.fragment fragment-index=4}
+:::
+
+:::{#second-col}
+
+![](gfx/tirsdag.png){.fragment fragment-index=3}
+
+
+:::
+
+:::
+
 
 ## Technical
 
-:::{.incremental}
-
+::: {.fragment fragment-index=1}
 - Strava calls my home server through ngrok reverse proxy, activity supplied as
   a `dict` to a Python function in my FastAPI application
-- Looks up XML file from Polar on local disk, and performs analysis of the workout
-- Updates tokens regularly, and performs initial token handshake (OAuth2)
-- https://github.com/berland/strava
+:::
+:::{.fragment .fade-out fragment-index=2}
+  ```python
+      if activity.get("device_name", "") == "Zwift Run":
+          start_time = datetime.fromisoformat(activity["start_date_local"])
+          if start_time.weekday() == 0 and 8 < start_time.hour < 11: 
+              updates["name"] = "Gym på jobben"
+              updates["description"] = "Zwift"
+          update_activity(activity_id, updates)
+  ```
+:::
 
+::: {.fragment fragment-index=4}
+- Looks up XML file from Polar on local disk, and performs analysis of the workout
+:::
+::: {.fragment fragment-index=5}
+- Updates tokens regularly, and performs initial token handshake (OAuth2)
+:::
+::: {.fragment fragment-index=6}
+- https://github.com/berland/strava
 :::
 
 ## Data analysis

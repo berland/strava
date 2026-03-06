@@ -1,3 +1,8 @@
+/* style.css */
+.fragment.fade-out.visible:not(.current-fragment) {
+  display: none;
+}
+
 /*-- scss:mixins --*/
 
 @mixin bodyBackground() {
