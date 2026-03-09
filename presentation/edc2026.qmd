@@ -5,6 +5,7 @@ subtitle: Equinor Developer Conference 2026
 format: 
   revealjs:
     theme: [default, custom.sccs]
+    embed-resources: true
 
 <! -- good themes: moon, sky -->
 ---
@@ -27,7 +28,7 @@ format:
 :::
 :::
 
-## Problem at hand
+## My "Strava problem"
 :::{.incremental}
 - 2-3 workouts a day. Stick to "Morning Run", "Afternoon Run", etc?
 - Automate fiddling in the Strava app for every workout
