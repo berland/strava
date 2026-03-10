@@ -114,5 +114,12 @@ format:
 
 ## Thanks
 
-- https://github.com/berland/strava
+- <https://github.com/berland/strava>
 
+  ```bash
+  $ wc -l *.py
+  528 exercise_analyzer.py
+  112 proxyserver.py
+  271 stravaapp.py
+  911 total
+  ``` 
