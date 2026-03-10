@@ -37,22 +37,22 @@ format:
 
 ## Data flow
 
-![](gfx/strava-dataflow.png)
+![](gfx/strava-dataflow.drawio.svg)
 
-## Features 
+## Commute run features 
 
 :::{layout-ncol="2"}
 
 :::{#first-col}
 
 ::: {.fragment fragment-index=1}
-- Detects my commutes
+- Detection and muting
 :::
 ::: {.fragment fragment-index=2}
-- Phone notification to select shoe-pair, and applies the same shoe-pair to my return commute
+- Phone notification to select shoes, and copies to return commute
 :::
 
-![](gfx/pushover.png){.fragment fragment-index=2}
+![](gfx/pushover.png){.fragment fragment-index=2 width=400 fig-align=center}
 :::
 
 :::{#second-col}
@@ -64,14 +64,14 @@ format:
 
 :::
 
-## Features
+## Analysis of interval sessions
 
 :::{layout-ncol="2"}
 
 :::{#first-col}
 
-- Analyzes interval sessions. Rigid running protocol for every Tuesday, Thursday and Saturday 
-![](gfx/torsdag.png){.fragment fragment-index=4}
+- 5 years of rigid running protocol Tuesday, Thursday and Saturday 
+![](gfx/torsdag.png){.fragment fragment-index=4 width=400}
 :::
 
 :::{#second-col}
